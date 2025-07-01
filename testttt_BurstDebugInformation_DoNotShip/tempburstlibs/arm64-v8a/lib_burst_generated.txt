@@ -1,0 +1,37 @@
+Library: E:\Projects\Unity Projects\AR_Project\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_burst_generated
+--platform=Android
+--backend=burst-llvm-16
+--target=ARMV8A_AARCH64
+--global-safety-checks-setting=Off
+--meta-data-generation=False
+--dump=Function
+--float-precision=Standard
+--target-framework=NetFramework
+--assembly-defines=Mono.Security;
+--assembly-defines=mscorlib;
+--assembly-defines=System.Configuration;
+--assembly-defines=System.Core;
+--assembly-defines=System;
+--assembly-defines=System.Xml;
+--assembly-defines=Unity.InputSystem;
+--assembly-defines=Unity.InputSystem.ForUI;
+--assembly-defines=Unity.VisualScripting.Antlr3.Runtime;
+--assembly-defines=Unity.VisualScripting.Core;
+--assembly-defines=Unity.VisualScripting.Flow;
+--assembly-defines=Unity.XR.ARCore;
+--assembly-defines=Unity.XR.ARFoundation;
+--assembly-defines=Unity.XR.ARFoundation.InternalUtils;
+--assembly-defines=Unity.XR.ARFoundation.VisualScripting;
+--assembly-defines=Unity.XR.ARSubsystems;
+--assembly-defines=Unity.XR.CoreUtils;
+--assembly-defines=Unity.XR.Management;
+--assembly-defines=Unity.XR.MockHMD;
+--assembly-defines=UnityEngine;
+--generate-link-xml=Temp\burst.link.xml
+--temp-folder=E:\Projects\Unity Projects\AR_Project\Temp\Burst
+--key-folder=C:/Program Files/Unity/Hub/Editor/2022.3.20f1/Editor/Data/PlaybackEngines/AndroidPlayer
+--decode-folder=E:\Projects\Unity Projects\AR_Project\Library\Burst
+--output=E:\Projects\Unity Projects\AR_Project\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_burst_generated
+--pdb-search-paths=Temp/ManagedSymbols/
+
+

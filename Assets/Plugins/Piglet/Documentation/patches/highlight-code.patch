@@ -1,0 +1,52 @@
+diff --git a/index.html b/index.html
+index ac1830f..5113a84 100644
+--- a/index.html
++++ b/index.html
+@@ -812,10 +812,10 @@
+ <span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;com.unity.modules.video&quot;</span> <span class="fu">:</span> <span class="st">&quot;1.0.0&quot;</span><span class="fu">,</span></span>
+ <span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;com.unity.modules.vr&quot;</span> <span class="fu">:</span> <span class="st">&quot;1.0.0&quot;</span><span class="fu">,</span></span>
+ <span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;com.unity.modules.wind&quot;</span> <span class="fu">:</span> <span class="st">&quot;1.0.0&quot;</span><span class="fu">,</span></span>
+-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;com.unity.modules.xr&quot;</span> <span class="fu">:</span> <span class="st">&quot;1.0.0&quot;</span><span class="fu">,</span></span>
+-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;com.atteneder.ktx&quot;</span> <span class="fu">:</span> <span class="st">&quot;1.1.2&quot;</span></span>
+-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;scopedRegistries&quot;</span> <span class="fu">:</span> <span class="ot">[</span></span>
++<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;com.unity.modules.xr&quot;</span> <span class="fu">:</span> <span class="st">&quot;1.0.0&quot;</span><span class="fu"><mark class="inline">,</mark></span></span>
++<mark class="block"><span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;com.atteneder.ktx&quot;</span> <span class="fu">:</span> <span class="st">&quot;1.1.2&quot;</span></span></mark>
++<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}<mark class="inline">,</mark></span></span>
++<mark class="block"><span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;scopedRegistries&quot;</span> <span class="fu">:</span> <span class="ot">[</span></span>
+ <span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+ <span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;name&quot;</span> <span class="fu">:</span> <span class="st">&quot;OpenUPM&quot;</span><span class="fu">,</span></span>
+ <span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;url&quot;</span> <span class="fu">:</span> <span class="st">&quot;https://package.openupm.com&quot;</span><span class="fu">,</span></span>
+@@ -823,7 +823,7 @@
+ <span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;com.atteneder&quot;</span></span>
+ <span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>      <span class="ot">]</span></span>
+ <span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+-<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
++<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span></mark>
+ <span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+ <p>Listing 6: Example edits to <code>Packages/manifest.json</code> in order to install KtxUnity. After adding the highlighted text, restart Unity to install the package.</p>
+ </div>
+@@ -921,10 +921,10 @@
+ <span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;com.unity.modules.video&quot;</span> <span class="fu">:</span> <span class="st">&quot;1.0.0&quot;</span><span class="fu">,</span></span>
+ <span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;com.unity.modules.vr&quot;</span> <span class="fu">:</span> <span class="st">&quot;1.0.0&quot;</span><span class="fu">,</span></span>
+ <span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;com.unity.modules.wind&quot;</span> <span class="fu">:</span> <span class="st">&quot;1.0.0&quot;</span><span class="fu">,</span></span>
+-<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;com.unity.modules.xr&quot;</span> <span class="fu">:</span> <span class="st">&quot;1.0.0&quot;</span><span class="fu">,</span></span>
+-<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;com.atteneder.draco&quot;</span> <span class="fu">:</span> <span class="st">&quot;3.3.2&quot;</span></span>
+-<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+-<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;scopedRegistries&quot;</span> <span class="fu">:</span> <span class="ot">[</span></span>
++<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;com.unity.modules.xr&quot;</span> <span class="fu">:</span> <span class="st">&quot;1.0.0&quot;</span><span class="fu"><mark class="inline">,</mark></span></span>
++<mark class="block"><span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;com.atteneder.draco&quot;</span> <span class="fu">:</span> <span class="st">&quot;3.3.2&quot;</span></span></mark>
++<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}<mark class="inline">,</mark></span></span>
++<mark class="block"><span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;scopedRegistries&quot;</span> <span class="fu">:</span> <span class="ot">[</span></span>
+ <span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+ <span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;name&quot;</span> <span class="fu">:</span> <span class="st">&quot;OpenUPM&quot;</span><span class="fu">,</span></span>
+ <span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;url&quot;</span> <span class="fu">:</span> <span class="st">&quot;https://package.openupm.com&quot;</span><span class="fu">,</span></span>
+@@ -932,7 +932,7 @@
+ <span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;com.atteneder&quot;</span></span>
+ <span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>      <span class="ot">]</span></span>
+ <span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+-<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
++<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span></mark>
+ <span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+ <p>Listing 7: Example edits to <code>Packages/manifest.json</code> in order to install DracoUnity. After adding the highlighted text, restart Unity to install the package.</p>
+ </div>
