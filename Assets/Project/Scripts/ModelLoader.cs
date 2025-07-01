@@ -6,87 +6,104 @@ using GLTFast;
 using System;
 
 /// <summary>
-/// Handles AR model placement, model selection, and model manipulation (move, rotate, scale).
+/// Handles AR model placement via AR tap or spacebar testing (Editor only),
+/// model selection, loading, and manipulation (move, rotate, scale).
 /// </summary>
 public class ModelLoader : MonoBehaviour
 {
-    // Reference to ARRaycastManager for detecting AR planes.
-    public ARRaycastManager raycastManager;
+    [Header("AR Components")]
+    public ARRaycastManager raycastManager;        // Used to raycast AR planes
 
-    // UI GameObject for the model selection menu (with 5 buttons for different models).
-    public GameObject modelMenuUI;
+    [Header("UI Panels")]
+    public GameObject modelMenuUI;                 // The model selection menu (circular menu)
+    public GameObject controlPanelUI;              // The manipulation controls (move/rotate/scale)
 
-    // UI GameObject for the control panel (move/rotate/scale buttons).
-    public GameObject controlPanelUI;
+    [Header("Model URLs")]
+    public string[] modelUrls = new string[5];     // URLs for loading models dynamically
 
-    // URLs of the 3D models to load (GLB/GLTF files).
-    public string[] modelUrls = new string[5];
+    private Vector3 placementPosition;             // Where the model should spawn
+    private Quaternion placementRotation;          // Orientation for the model
+    private GameObject currentModel;               // Reference to the currently loaded model
 
-    // The position and rotation where the model will be placed.
-    private Vector3 placementPosition;
-    private Quaternion placementRotation;
-
-    // The currently loaded model in the AR scene.
-    private GameObject currentModel;
-
-    // Indicates if we are waiting for the user to select a model after a plane tap.
-    private bool waitingForModelSelection = false;
+    private bool waitingForModelSelection = false; // Prevents multiple selections at once
 
     void Update()
     {
-        // Check for a new touch and if we're not already waiting for model selection.
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && !waitingForModelSelection)
+        // Handle AR tap input (for devices)
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
             Vector2 touchPosition = Input.GetTouch(0).position;
-            TryPlaceOnARPlane(touchPosition);
+
+            // If not already waiting for model selection, try to place model
+            if (!waitingForModelSelection)
+            {
+                TryPlaceOnARPlane(touchPosition);
+            }
         }
+
+        // Handle Space key (Editor testing only)
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (!waitingForModelSelection)
+            {
+                // Hard-coded placement at origin for testing
+                placementPosition = Vector3.zero;
+                placementRotation = Quaternion.identity;
+
+                modelMenuUI.SetActive(true);         // Show the circular model selection menu
+                waitingForModelSelection = true;     // Now waiting for user to pick a model
+            }
+        }
+#endif
     }
 
     /// <summary>
-    /// Attempts to detect an AR plane at the touch position and sets up placement pose.
+    /// Casts a ray against AR planes and shows the model selection menu at valid hit.
     /// </summary>
-    /// <param name="touchPosition">The screen position of the touch.</param>
+    /// <param name="touchPosition">Screen position of the touch</param>
     void TryPlaceOnARPlane(Vector2 touchPosition)
     {
         var hits = new System.Collections.Generic.List<ARRaycastHit>();
 
-        // Raycast against AR planes.
+        // Check if raycast hits an AR plane within polygon bounds
         if (raycastManager.Raycast(touchPosition, hits, TrackableType.PlaneWithinPolygon))
         {
             Pose hitPose = hits[0].pose;
-            placementPosition = hitPose.position;
-            placementRotation = hitPose.rotation;
 
-            // Show the model selection menu.
-            modelMenuUI.SetActive(true);
-            waitingForModelSelection = true;
+            placementPosition = hitPose.position;   // Store where model will be placed
+            placementRotation = hitPose.rotation;   // Store orientation
+
+            modelMenuUI.SetActive(true);            // Show model selection menu
+            waitingForModelSelection = true;        // Block further placement until user selects
         }
     }
 
     /// <summary>
-    /// Called when a model button is clicked to select and load a model.
+    /// Called when user selects a model from the circular UI menu.
     /// </summary>
-    /// <param name="index">Index of the selected model in the modelUrls array.</param>
+    /// <param name="index">Index of model URL selected (0-4)</param>
     public void OnModelSelected(int index)
     {
         if (index >= 0 && index < modelUrls.Length)
         {
-            modelMenuUI.SetActive(false);
-            LoadAndPlaceModel(modelUrls[index]);
+            modelMenuUI.SetActive(false);          // Hide the menu
+            LoadAndPlaceModel(modelUrls[index]);   // Start loading and placing the model
         }
         else
         {
             Debug.LogError("Invalid model index selected");
+            waitingForModelSelection = false;      // Allow user to try again
         }
     }
 
     /// <summary>
-    /// Loads the selected model from the URL and places it at the detected location.
+    /// Loads the model from a URL and places it at the stored position.
     /// </summary>
-    /// <param name="url">URL of the model to load.</param>
+    /// <param name="url">The URL to the GLTF/GLB model</param>
     private async void LoadAndPlaceModel(string url)
     {
-        // Destroy any previously loaded model.
+        // Remove existing model if present
         if (currentModel != null)
         {
             Destroy(currentModel);
@@ -94,34 +111,35 @@ public class ModelLoader : MonoBehaviour
 
         var gltf = new GltfImport();
 
-        // Attempt to load the model asynchronously.
+        // Attempt to load the model
         bool success = await gltf.Load(url);
 
         if (success)
         {
-            // Create a container GameObject for the loaded model.
+            // Create container GameObject
             currentModel = new GameObject("ARLoadedModel");
             await gltf.InstantiateMainSceneAsync(currentModel.transform);
 
-            // Set position and rotation at the detected AR plane.
+            // Set position and rotation
             currentModel.transform.position = placementPosition;
             currentModel.transform.rotation = placementRotation;
 
-            // Show the control panel for manipulating the model.
-            controlPanelUI.SetActive(true);
-            waitingForModelSelection = false;
+            controlPanelUI.SetActive(true);        // Show manipulation controls
         }
         else
         {
             Debug.LogError("Failed to load model from URL: " + url);
-            waitingForModelSelection = false;
         }
+
+        // Done with selection; ready for next placement
+        waitingForModelSelection = false;
     }
 
+    // === Manipulation controls ===
+
     /// <summary>
-    /// Moves the model by a delta vector.
+    /// Moves the current model by delta.
     /// </summary>
-    /// <param name="delta">The amount to move the model.</param>
     public void Move(Vector3 delta)
     {
         if (currentModel != null)
@@ -129,9 +147,8 @@ public class ModelLoader : MonoBehaviour
     }
 
     /// <summary>
-    /// Rotates the model by the given euler angles in world space.
+    /// Rotates the current model by euler angles.
     /// </summary>
-    /// <param name="euler">Euler angles to rotate the model by.</param>
     public void Rotate(Vector3 euler)
     {
         if (currentModel != null)
@@ -139,26 +156,23 @@ public class ModelLoader : MonoBehaviour
     }
 
     /// <summary>
-    /// Scales the model uniformly by the given factor.
+    /// Scales the current model by a factor.
     /// </summary>
-    /// <param name="factor">Scale multiplier (e.g. 1.1 for 10% increase, 0.9 for 10% decrease).</param>
     public void Scale(float factor)
     {
         if (currentModel != null)
             currentModel.transform.localScale *= factor;
     }
 
-    // ====== Wrapper methods for Move buttons ======
+    // === Move button wrappers ===
+    public void MoveUp() { Move(new Vector3(0, 0.05f, 0)); }
+    public void MoveDown() { Move(new Vector3(0, -0.05f, 0)); }
+    public void MoveLeft() { Move(new Vector3(-0.05f, 0, 0)); }
+    public void MoveRight() { Move(new Vector3(0.05f, 0, 0)); }
+    public void MoveForward() { Move(new Vector3(0, 0, 0.05f)); }
+    public void MoveBack() { Move(new Vector3(0, 0, -0.05f)); }
 
-    public void MoveUp() { Move(new Vector3(0, 0.05f, 0)); }          // Move model up by 5 cm
-    public void MoveDown() { Move(new Vector3(0, -0.05f, 0)); }      // Move model down by 5 cm
-    public void MoveLeft() { Move(new Vector3(-0.05f, 0, 0)); }      // Move model left by 5 cm
-    public void MoveRight() { Move(new Vector3(0.05f, 0, 0)); }      // Move model right by 5 cm
-    public void MoveForward() { Move(new Vector3(0, 0, 0.05f)); }    // Move model forward by 5 cm
-    public void MoveBack() { Move(new Vector3(0, 0, -0.05f)); }      // Move model back by 5 cm
-
-    // ====== Wrapper methods for Rotate buttons ======
-
-    public void RotateLeft() { Rotate(new Vector3(0, -15f, 0)); }    // Rotate model left by 15 degrees
-    public void RotateRight() { Rotate(new Vector3(0, 15f, 0)); }    // Rotate model right by 15 degrees
+    // === Rotate button wrappers ===
+    public void RotateLeft() { Rotate(new Vector3(0, -15f, 0)); }
+    public void RotateRight() { Rotate(new Vector3(0, 15f, 0)); }
 }
